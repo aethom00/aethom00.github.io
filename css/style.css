@@ -1,3 +1,22 @@
+  .fa {
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+  }
+
+
+  .fa:hover {
+    opacity: 0.7;
+  }
+
+/* Facebook */
+  .fa-facebook {
+    background: #3B5998;
+    color: white;
+  }
+  
   html{
     scroll-behavior: smooth;
   }
@@ -12,12 +31,12 @@
   
   
   .overview{
-    background-attachment: fixed; /* Parallax effect */     
-    background-position: center;  /* Parallax effect */
-    background-repeat: no-repeat; /* Parallax effect */
-    background-size: cover;       /* Parallax effect */
+    background-attachment: fixed;  
+    background-position: center;  
+    background-repeat: no-repeat; 
+    background-size: cover;      
     color: white;
-    height: 400px;                /* Parallax effect */
+    height: 400px;               
   }
   
   
@@ -40,13 +59,13 @@
     line-height: 1.5;
   }
   
-  nav li{
+  nav li {
     display:inline;
     padding-right:20px;
   
   }
   
-  nav a, select {
+  nav a, select{
     color: black;
     font-weight: bold;
     text-decoration: none; 
@@ -86,26 +105,18 @@
   
   @media screen and (prefers-reduced-motion: reduce){
     html{
-        scroll-behavior: auto; /* Removes scroll animation */
+        scroll-behavior: auto; 
     }
   
     .skip a{
-      -webkit-transition: none; /* sets to default setting */
-      transition: none;        /* sets to default setting */
+      -webkit-transition: none; 
+      transition: none;        
      }
   
-    /*Turn off parallax*/
     header{
       background-attachment: initial;
     }
   }
-  
-  
-  /*Your Code Here*/
-  /* PLEASE DO NOT REMOVE MY COMMENTS.  THEY HELP US HELP YOU DEBUG. */
-  
-  /* Step 1: Write selector/rule property to add an underline when
-  links in the navigation are in the hover or focus state.*/
   
   nav a:focus{
     text-decoration: underline;
@@ -115,30 +126,19 @@
     text-decoration: underline;
   }
   
-  /* Step 2a: Write selector/rule property to position the default position for the skip class element*/
-  
   .skip a{
     position: relative;
     top: -40px;
   }
-  
-  /* Step 2b: Write selector/rule property to position the skip class element when it is in focus*/
   
   .skip:focus{
     top: 20px;
     position: relative;
   }
   
-  /* Step 3: Write selector/rule property to style all elements when in focus*/
-  
   :focus{
     border: 2px solid black;
   }
-  
-  
-  /* Here starts mobile view */
-  
-  /* Step 4: Write selector/rule property to style the container */
   
   .container {
     display: grid;
@@ -147,14 +147,10 @@
     grid-gap: 15px;
   }
   
-  /* Step 5: Write selector/rule property to add the background image to the 
-  first div in the grid  and place it in the grid. */
-  
-  
   .container div:first-child{
     grid-column: 1 / -1;
     grid-row-start: 1;
-    background-image: url("../images/header.jpg");
+    background-image: url("../images/IcelandGlacier.jpeg");
     background-size: cover;
     background-attachment: fixed;
     background-color: #cccccc;
@@ -162,14 +158,6 @@
     background-repeat: no-repeat;
     height: 400px;
   }
-  
-  
-  /* Steps 6 and 7: Write the selector/rule properties to add place the next elements in the next
-   four rows in the grid. */
-  
-        /*This will be a lot of rules.... but be strategic and combine seletors*/
-  
-  /* Step 6 */
   
   .about {
     grid-column: 2 / span 1;
@@ -191,8 +179,6 @@
     grid-row: 5 / span 1;
   }
   
-    /* Step 7 */
-  
   .about-image, .method-image, .clients-image, .contact-image {
     grid-column: 1 / -1;
     max-height: 600px;
@@ -212,57 +198,37 @@
     grid-row-start: 5;
   }
   
-   /* Step 8: Write the selector/rule property to style the .text-block class. */
-  
   .text-block{
-    /* display: flex; */
     display: inline-block;
     align-items: center;
     justify-content: center;
     text-align: center;
     height: 100%;
     margin: auto;
-    /* align-self: center; */
   }
   
-  /* Here starts the view for desktop >= 800px */
-  
-  /* Add your media query here */
-  
   @media screen and (min-width: 800px){
-  
-    /* Step 9: Write the selector/rule property to style the nav element */
   
     nav {
       text-align: right;
       padding: 30px 0px;
     }
-   
-    /* Step 10: Write the selector/rule property to update the .container class */
   
     .container{
       grid-template-columns: 50px auto 500px auto 50px;
     }
   
-    /* Steps 11 and 12: Update the grid-column property of the grid's children (where-needed)*/
-  
     .about, .clients, .method-image, .contact-image {
       grid-column: 3 / span 2;
     }
-    
-    /* Step 12 */
   
     .method, .contact, .about-image, .clients-image {
       grid-column: 2 / span 2;
     }
   
-   /* Step 13:Write the selector/rule property to update the .text-block class */
-  
     .text-block{
       max-height: 250px;
       overflow: auto;
-      /* align-self: center; */
-      /* overflow: visible; */
     }
   }
   
