@@ -28,7 +28,7 @@ canvas{
 
 #stats,
 .count-particles{
-  /* -webkit-user-select: none; */
+  -webkit-user-select: none;
   margin-top: 5px;
   margin-left: 5px;
 }
@@ -55,7 +55,7 @@ canvas{
 
   /* background-color: #2B2B2B; */
   /* background-color: #343434; */
-  background-color: #3D3D3D;
+  /* background-color: #3D3D3D; */
 
 
   background-image: url('');
