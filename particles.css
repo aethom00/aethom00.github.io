@@ -68,3 +68,32 @@ canvas{
   padding: 0px;
 } */
 
+#hero {
+  position: relative;
+  z-index: 2;
+}
+
+#particles-js {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.hero-container {
+  pointer-events: none; /* needed wherever I put it */
+}
+
+.hero-container a {
+  pointer-events: auto;
+}
+
+#hero .btn-get-started {
+  border-color: white;
+}
+
+#hero .btn-get-started:hover {
+  background-color: #3D3D3D;
+}
