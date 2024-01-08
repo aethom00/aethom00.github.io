@@ -84,7 +84,16 @@ canvas{
 #particles-js{
   width: 100%;
   height: 100%;
-  background-color: black;
+  /* background-color: #009A9A; */
+  /* background-color: #1A1A1A; */
+  /* background-color: #0A0A0A; */
+  /* background-color: #202020; */
+
+  /* background-color: #2B2B2B; */
+  /* background-color: #343434; */
+  background-color: #3D3D3D;
+
+
   background-image: url('');
   background-size: cover;
   background-position: 50% 50%;
@@ -98,10 +107,10 @@ canvas{
 
   /* added below */
 
-  position: relative; /* This makes it the positioning context for absolute children */
+  /* position: relative; */
 }
 
-.hero-text {
+/* .hero-text {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -109,5 +118,5 @@ canvas{
   color: white;
   text-align: center;
   pointer-events: none;
-}
+} */
 
