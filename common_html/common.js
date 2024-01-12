@@ -17,7 +17,7 @@ function header() {
                             <li><a class="nav-link scrollto" href="https://aethom00.github.io/#skills">Skills</a></li>
                             <li><a class="nav-link scrollto " href="https://aethom00.github.io/#portfolio">Portfolio</a></li>
                             <li><a class="nav-link scrollto " href="https://aethom00.github.io/projects">Projects Page</a></li>
-                            <li><a class="nav-link scrollto " href="Ashton_resume.pdf">Resume</a></li>
+                            <li><a class="nav-link scrollto " href="Ashton_resume.pdf" target="_blank">Resume</a></li>
                             <li class="dropdown"><a href="#"><span>Other Pages</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="https://aethom00.github.io/maintenance">Class Reviews</a></li>
