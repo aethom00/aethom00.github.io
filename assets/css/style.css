@@ -1086,3 +1086,9 @@ section {
     display: none;
   }
 }
+
+@media screen and (min-width: 992px) and (max-width: 1199px) {
+  .name-part {
+      display: none;
+  }
+}

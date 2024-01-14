@@ -7,7 +7,7 @@ function header() {
                     <div class="container d-flex align-items-center justify-content-between ">
 
                         <div class="logo">
-                        <h1><a href="https://aethom00.github.io/index.html">Ashton Thomas</a></h1>
+                        <h1><a href="https://aethom00.github.io/index.html">Ashton <span class="name-part">Thomas</span></a></h1>
                         </div>
 
                         <nav id="navbar" class="navbar">
@@ -88,4 +88,5 @@ function footer() {
 }
 
 footer();
+
 
