@@ -21,7 +21,6 @@ function header() {
                             <li class="dropdown"><a href="#"><span>Other Pages</span> <i class="bi bi-chevron-down"></i></a>
                             <ul>
                                 <li><a href="https://aethom00.github.io/maintenance">Class Reviews</a></li>
-                                <li><a href="https://aethom00.github.io/maintenance">Location</a></li>
                                 <li class="dropdown"><a href="#"><span>Projects</span> <i class="bi bi-chevron-right"></i></a>
                                 <ul>
                                     <li><a href="https://aethom00.github.io/370_p2l">Assembly Linker</a></li>
@@ -49,7 +48,7 @@ function header() {
                                 </ul>
                                 </li>
                                 <li><a href="https://aethom00.github.io/maintenance">Studies & Achievements</a></li>
-                                <li><a href="https://aethom00.github.io/maintenance">Travels & Plans</a></li>
+                                <li><a href="https://aethom00.github.io/travel.html">Travel</a></li>
                             </ul>
                             </li>
                             <!-- <li><a class="nav-link scrollto" href="mailto:aethom@umich.edu">Contact</a></li> -->
