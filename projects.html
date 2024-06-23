@@ -143,7 +143,11 @@
                             <h4></h4>
                             <h4>Language: Python</h4>
                             <p>Geoguessr AI</p>
-                            <p>The project guesses a location given a panorama generated from an API. The Geoguessr AI plays a game similar to the infamous game Geoguessr, a game that shows players a photo of a location and have the player guess the location. The random panoramas from <a href="https://www.mapillary.com/app/" target="_blank">Mapillary</a> is converted into grayscale, then its pixels are used to create a model of trained data using Keras from the Tensorflow Python library. Now after training the Geoguessr AI is able to make a prediction given its trained data predict the location of the panorama. The output of the program is one or many shaded boxes depending on its confidence, the box shaded the most is the guess of the AI and the blue dot shown below is the actual location. The program ends up being quite accurate at a correct prediction rate of 90%.</p>
+                            <p>
+                                Version 1 of the project involves an AI that guesses a location given a panorama generated from an API, similar to the game Geoguessr. The AI uses random panoramas from Mapillary, converts them into grayscale, and trains a model using Keras from the Tensorflow Python library. After training, the AI makes predictions based on its trained data, with the output showing shaded boxes to indicate confidence levels, and a blue dot to show the actual location. The AI achieves a prediction accuracy rate of 90%.
+
+                                Transitioning to Version 2, we significantly enhanced the project by developing a novel computer vision model that leverages a modified ResNet-50 architecture. This new version accurately identifies geographic locations from images across the United States, regardless of lighting and seasonal variations. By fine-tuning a pre-trained model with a dataset of 61,000 images and innovating with custom layers and a unique Haversine distance-based loss function, we achieved substantial improvements in geolocation accuracy. This advancement underscores the potent applications of machine learning in real-world navigation and location-based services.
+                            </p>
                             <a href="https://aethom00.github.io/mhacks_geoguessr" target="_blank" class="btn">Learn More</a>
                         </div>
                     </div>
