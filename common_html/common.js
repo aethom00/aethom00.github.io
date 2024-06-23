@@ -42,6 +42,7 @@ function header() {
                                     <li><a href="https://aethom00.github.io/website">Personal Website</a></li>
                                     <li><a href="https://aethom00.github.io/370_p3">Pipeline Simulator</a></li>
                                     <li><a href="https://aethom00.github.io/498_p3">Quantum Fault Tolerance Library</a></li>
+                                    <li><a href="https://aethom00.github.io/485_p5">Search Engine</a></li>
                                     <li><a href="https://aethom00.github.io/bst">Sorting Piazza Posts</a></li>
                                     <li><a href="https://aethom00.github.io/498_p2">Study Group Coordinator</a></li>
                                     <li><a href="https://aethom00.github.io/tumor_detection">Tumor Detection</a></li>
