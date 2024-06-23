@@ -42,6 +42,7 @@ function header() {
                                     <li><a href="https://aethom00.github.io/370_p3">Pipeline Simulator</a></li>
                                     <li><a href="https://aethom00.github.io/rocket">Rocket Calculations</a></li>
                                     <li><a href="https://aethom00.github.io/bst">Sorting Piazza Posts</a></li>
+                                    <li><a href="https://aethom00.github.io/498_p2">Study Group Coordinator</a></li>
                                     <li><a href="https://aethom00.github.io/tumor_detection">Tumor Detection</a></li>
                                     <li><a href="https://aethom00.github.io/281_p2">Zombie Defense game</a></li>
                                     <li><a href="https://aethom00.github.io/281_p1">3-D Puzzle Solver</a></li>
