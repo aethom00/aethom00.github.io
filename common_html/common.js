@@ -28,6 +28,7 @@ function header() {
                                     <li><a href="https://aethom00.github.io/segway">Balancing Segway</a></li>
                                     <li><a href="https://aethom00.github.io/281_p3">Bank Simulator</a></li>
                                     <li><a href="https://aethom00.github.io/370_p4">Cache Simulator</a></li>
+                                    <li><a href="https://aethom00.github.io/rocket">Calculating Rocket Payloads</a></li>
                                     <li><a href="https://aethom00.github.io/calculating_Alaskan_precipitation">Computing Precipitation</a></li>
                                     <li><a href="https://aethom00.github.io/euchre">Euchre Simulation</a></li>
                                     <li><a href="https://aethom00.github.io/mhacks_geoguessr">Geoguessr AI</a></li>
@@ -40,7 +41,7 @@ function header() {
                                     <li><a href="https://aethom00.github.io/office_hours_api">Office Hours API</a></li>
                                     <li><a href="https://aethom00.github.io/website">Personal Website</a></li>
                                     <li><a href="https://aethom00.github.io/370_p3">Pipeline Simulator</a></li>
-                                    <li><a href="https://aethom00.github.io/rocket">Rocket Calculations</a></li>
+                                    <li><a href="https://aethom00.github.io/498_p3">Quantum Fault Tolerance Library</a></li>
                                     <li><a href="https://aethom00.github.io/bst">Sorting Piazza Posts</a></li>
                                     <li><a href="https://aethom00.github.io/498_p2">Study Group Coordinator</a></li>
                                     <li><a href="https://aethom00.github.io/tumor_detection">Tumor Detection</a></li>
