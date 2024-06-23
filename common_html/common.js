@@ -31,7 +31,7 @@ function header() {
                                     <li><a href="https://aethom00.github.io/rocket">Calculating Rocket Payloads</a></li>
                                     <li><a href="https://aethom00.github.io/calculating_Alaskan_precipitation">Computing Precipitation</a></li>
                                     <li><a href="https://aethom00.github.io/euchre">Euchre Simulation</a></li>
-                                    <li><a href="https://aethom00.github.io/mhacks_geoguessr">Geoguessr AI</a></li>
+                                    <li><a href="https://aethom00.github.io/geoguessr">Geoguessr AI</a></li>
                                     <li><a href="https://aethom00.github.io/image_resizing">Image Resizing</a></li>
                                     <li><a href="https://aethom00.github.io/instagram">Instagram Clone</a></li>
                                     <li><a href="https://aethom00.github.io/k-means">K-Means Clustering</a></li>

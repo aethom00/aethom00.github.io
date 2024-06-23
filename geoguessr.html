@@ -38,11 +38,11 @@
       <div class="container">
 
         <div class="d-flex justify-content-between align-items-center">
-          <h2>Cache Simulator</h2>
+          <h2>Geoguessr AI</h2>
           <ol>
             <li><a href="https://aethom00.github.io/index.html">Home</a></li>
             <li><a href="https://aethom00.github.io/index.html#portfolio">Portfolio</a></li>
-            <li>Cache Simulator</li>
+            <li>Geoguessr AI</li>
           </ol>
         </div>
 
@@ -60,14 +60,14 @@
               <div class="swiper-wrapper align-items-center">
 
                 <div class="swiper-slide">
-                  <img src="new_images/cache.png" alt="">
-                </div>
-
-                <!-- <div class="swiper-slide">
-                  <img src="" alt="">
+                  <img src="new_images/world-map.png" alt="">
                 </div>
 
                 <div class="swiper-slide">
+                  <img src="new_images/example.png" alt="">
+                </div>
+
+                <!-- <div class="swiper-slide">
                   <img src="" alt="">
                 </div> -->
 
@@ -80,16 +80,25 @@
             <div class="portfolio-info">
               <h3>Project information</h3>
               <ul>
-                <li><strong>Category</strong>: C & Caches</li>
-                <li><strong>Class</strong>: Computer Organization</li>
-                <li><strong>Project date</strong>: Fall 2023</li>
-                <li><strong>Project URL</strong>: <a href="https://eecs370.github.io/project_4_spec/" target="_blank">Click Here</a></li>
+                <li><strong>Category</strong>: Python, Tensorflow, ML, Keras, PyTorch</li>
+                <li><strong>Class</strong>: Computer Vision</li>
+                <li><strong>Project date</strong>: Fall 2023 & Winter 2024</li>
+                <li><strong>Project URL</strong>: <a href="https://aethom00.github.io/EECS_442_Final_Project.pdf" target="_blank">Click Here</a></li>
               </ul>
             </div>
             <div class="portfolio-description">
               <h2>Project Details</h2>
+              
+              <h3>Version 1</h3>
+              
               <p>
-                This project involves designing and simulating a CPU cache integrated into an assembly behavioral simulator. The cache is flexible, accommodating various configurations like write-back, allocate-on-write policies, associativity ranging from direct-mapped to fully associative to set associative, and specific size and block size parameters. Detailed instructions guide the modification process, and the compiled executable is run with specified command-line arguments.
+                The project guesses a location given a panorama generated from an API. The Geoguessr AI plays a game similar to the infamous game Geoguessr, a game that shows players a photo of a location and have the player guess the location. The random panoramas from <a href="https://www.mapillary.com/app/" target="_blank">Mapillary</a> is converted into grayscale, then its pixels are used to create a model of trained data using Keras from the Tensorflow Python library. Now after training the Geoguessr AI is able to make a prediction given its trained data predict the location of the panorama. The output of the program is one or many shaded boxes depending on its confidence, the box shaded the most is the guess of the AI and the blue dot shown below is the actual location. The program ends up being quite accurate at a correct prediction rate of 90%.
+              </p>
+
+              <h3>Version 2</h3>
+
+              <p>
+                In our project, Geoguessr AI, our team developed a novel computer vision model that leverages a modified ResNet-50 architecture to accurately identify geographic locations from images across the United States, irrespective of lighting and seasonal variations. This project, which involved fine-tuning a pre-trained model with a dataset of 61,000 images and innovating with custom layers and a unique Haversine distance-based loss function, demonstrated significant improvements in geolocation accuracy. Our work contributes to the fields of navigation and location-based services and underscores the potent applications of machine learning in real-world scenarios.
               </p>
             </div>
           </div>
