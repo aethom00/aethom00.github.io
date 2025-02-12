@@ -28,6 +28,7 @@ function header() {
                                     <li><a href="https://aethom00.github.io/281_p3">Bank Simulator</a></li>
                                     <li><a href="https://aethom00.github.io/370_p4">Cache Simulator</a></li>
                                     <li><a href="https://aethom00.github.io/rocket">Calculating Rocket Payloads</a></li>
+                                    <li><a href="https://aethom00.github.io/ComputerLabVR">Computer Lab VR</a></li>
                                     <li><a href="https://aethom00.github.io/calculating_Alaskan_precipitation">Computing Precipitation</a></li>
                                     <li><a href="https://aethom00.github.io/euchre">Euchre Simulation</a></li>
                                     <li><a href="https://aethom00.github.io/geoguessr">Geoguessr AI</a></li>
