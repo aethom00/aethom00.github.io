@@ -11,6 +11,8 @@ type TravelKind = TravelPlace['kind']
 type TravelView = 'atlas' | 'globe'
 
 const googleMyMapsUrl = ''
+const cartoApiKey = import.meta.env.VITE_CARTO_API_KEY as string | undefined
+const cartoTileUrl = `https://basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}.png${cartoApiKey ? `?key=${cartoApiKey}` : ''}`
 const globeDetailedMapResolution = '10m'
 const globeMediumMapResolution = 'medium'
 const globeFastMapResolution = '50m'
@@ -269,8 +271,7 @@ export default function Travel() {
     const markerPane = map.createPane('travel-markers')
     markerPane.style.zIndex = '450'
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      subdomains: 'abcd',
+    L.tileLayer(cartoTileUrl, {
       maxZoom: 20,
       attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
     }).addTo(map)
