@@ -30,16 +30,16 @@ function projectInitials(title: string) {
 function ProjectCard({ project, index }: { project: Project, index: number }) {
   return (
     <motion.article layout key={project.title} initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .1 }} transition={{ delay: Math.min(index, 5) * .05 }} className="glass card group flex flex-col">
-      <a href={`#/projects/${getProjectSlug(project)}`} className="relative block aspect-[16/9] overflow-hidden border-b border-white/[.06] bg-gradient-to-br from-blue-500/15 via-slate-900 to-violet-500/10" aria-label={`Open ${project.title} project page`}>
+      <a href={`/projects/${encodeURIComponent(getProjectSlug(project))}`} className="relative block aspect-[16/9] overflow-hidden border-b border-white/[.06] bg-gradient-to-br from-blue-500/15 via-slate-900 to-violet-500/10" aria-label={`Open ${project.title} project page`}>
         {project.image ? <img src={project.image} alt="" loading="lazy" className="h-full w-full object-cover opacity-75 transition duration-500 group-hover:scale-[1.04] group-hover:opacity-95" /> : <div className="grid h-full place-items-center"><span className="text-5xl font-semibold tracking-[-.08em] text-white/10">{projectInitials(project.title)}</span></div>}
         <span className="absolute right-4 top-4 grid h-9 w-9 place-items-center rounded-full border border-white/10 bg-slate-950/70 text-slate-300 backdrop-blur"><ArrowUpRight size={16} /></span>
       </a>
       <div className="flex flex-1 flex-col p-5">
-        <div className="flex items-start justify-between gap-4"><div><p className="text-[.68rem] font-semibold uppercase tracking-[.16em] text-indigo-400">{project.categories[0]}</p><h3 className="mt-2 text-xl font-semibold tracking-tight text-white"><a href={`#/projects/${getProjectSlug(project)}`} className="transition hover:text-indigo-200">{project.title}</a></h3></div>{project.date && <span className="text-xs text-slate-600">{project.date}</span>}</div>
+        <div className="flex items-start justify-between gap-4"><div><p className="text-[.68rem] font-semibold uppercase tracking-[.16em] text-indigo-400">{project.categories[0]}</p><h3 className="mt-2 text-xl font-semibold tracking-tight text-white"><a href={`/projects/${encodeURIComponent(getProjectSlug(project))}`} className="transition hover:text-indigo-200">{project.title}</a></h3></div>{project.date && <span className="text-xs text-slate-600">{project.date}</span>}</div>
         <p className="mt-4 line-clamp-3 text-sm leading-6 text-slate-400">{project.description}</p>
         <details className="project-details mt-3 text-sm text-slate-400"><summary className="cursor-pointer text-xs font-medium text-indigo-300">Read full description</summary><p className="mt-3 leading-6">{project.description}</p></details>
         <div className="flex flex-wrap gap-2 pt-5">{project.languages.map((language) => <span className="pill" key={language}>{language}</span>)}</div>
-        <a href={`#/projects/${getProjectSlug(project)}`} className="mt-auto flex items-center gap-2 pt-5 text-xs font-semibold text-indigo-300 transition hover:text-white">See more <ArrowUpRight size={14} /></a>
+        <a href={`/projects/${encodeURIComponent(getProjectSlug(project))}`} className="mt-auto flex items-center gap-2 pt-5 text-xs font-semibold text-indigo-300 transition hover:text-white">See more <ArrowUpRight size={14} /></a>
       </div>
     </motion.article>
   )
@@ -89,7 +89,7 @@ export default function Projects({ featured = false }: { featured?: boolean }) {
       <div className="shell">
         <div className="flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div><div className="eyebrow">{featured ? 'Selected projects' : 'Highlighted projects'}</div><h2 className="section-title">{featured ? 'Ideas, made tangible.' : 'The strongest work up front.'}</h2><p className="section-copy">{featured ? 'A preview of work spanning intelligent systems, full-stack engineering, and low-level computing.' : 'A curated set of the projects that best represent my current software engineering, AI, systems, web, and research work.'}</p></div>
-          {featured ? <a href="#/projects" className="secondary-button w-fit">All projects <ArrowUpRight size={16} /></a> : <a href="https://github.com/aethom00" target="_blank" rel="noreferrer" className="secondary-button w-fit"><Code2 size={16} />GitHub archive</a>}
+          {featured ? <a href="/work" className="secondary-button w-fit">All projects <ArrowUpRight size={16} /></a> : <a href="https://github.com/aethom00" target="_blank" rel="noreferrer" className="secondary-button w-fit"><Code2 size={16} />GitHub archive</a>}
         </div>
 
         {!featured && <div className="mt-9 space-y-4">

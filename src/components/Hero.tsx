@@ -23,7 +23,7 @@ const getGoogleMapsUrl = (label: string) => {
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location)}`
 }
 
-const getPhotoTimelineUrl = (image: { src: string, label: string }) => `#/timeline?photo=${encodeURIComponent(image.src)}&place=${encodeURIComponent(image.label)}`
+const getPhotoTimelineUrl = (image: { src: string, label: string }) => `/timeline?photo=${encodeURIComponent(image.src)}&place=${encodeURIComponent(image.label)}`
 
 export default function Hero() {
   const heroRef = useRef<HTMLElement | null>(null)

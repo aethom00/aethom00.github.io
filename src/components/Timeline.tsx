@@ -370,9 +370,7 @@ function normalizeTarget(value?: string) {
 }
 
 function getRequestedPhotoTarget() {
-  const queryStart = window.location.hash.indexOf('?')
-  if (queryStart < 0) return { photo: '', place: '' }
-  const params = new URLSearchParams(window.location.hash.slice(queryStart + 1))
+  const params = new URLSearchParams(window.location.search)
   return {
     photo: params.get('photo') ?? '',
     place: params.get('place') ?? '',
@@ -489,11 +487,11 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
       window.requestAnimationFrame(() => selectEvent(targetIndex, behavior))
     }
 
-    const handleHashChange = () => selectRequestedPhoto('smooth')
+    const handlePopState = () => selectRequestedPhoto('smooth')
 
     selectRequestedPhoto('auto')
-    window.addEventListener('hashchange', handleHashChange)
-    return () => window.removeEventListener('hashchange', handleHashChange)
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
   }, [events, variant, selectEvent])
 
   const getKeyTargetIndex = (key: string, index: number) => {

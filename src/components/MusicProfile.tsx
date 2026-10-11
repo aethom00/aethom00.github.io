@@ -1,6 +1,9 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Headphones, LoaderCircle, Music2 } from 'lucide-react'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
+
+const musicInkStyle: CSSProperties = { color: 'var(--g-ink)' }
+const musicInk3Style: CSSProperties = { color: 'var(--g-ink3)' }
 
 const appleProfileUrl = 'https://music.apple.com/profile/thomasash2003'
 const appleProfileImage = 'https://is1-ssl.mzstatic.com/image/thumb/tNn9lGaqF6u0NJ7k2xeLbg/500x500cc.jpg'
@@ -155,9 +158,11 @@ export default function MusicProfile() {
   const selectedPeriod = musicPeriods.find((item) => item.value === period) ?? musicPeriods[0]
 
   return (
-    <section id="music" className="section" aria-labelledby="music-profile-title">
-      <div className="shell">
-        <motion.div initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .2 }} className="relative overflow-hidden rounded-[1.35rem] border border-rose-400/15 bg-[#0b0710] shadow-[0_30px_100px_rgba(0,0,0,.35)] sm:rounded-[2rem]">
+    <div className="glass-root relative min-h-screen overflow-hidden" aria-labelledby="music-profile-title">
+      <div aria-hidden="true" className="glass-bloom" />
+      <div aria-hidden="true" className="glass-bloom-2" />
+      <div className="relative mx-auto max-w-[1180px] px-7 pb-[120px] pt-[110px]">
+        <motion.div initial={{ opacity: 0, y: 22 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: .2 }} className="glass-panel-strong relative overflow-hidden">
           <div className="grid md:grid-cols-[.78fr_1.22fr]">
             <div className="relative min-h-[21rem] overflow-hidden bg-gradient-to-br from-[#fa2d65] via-[#b82891] to-[#5a32a3] p-5 sm:min-h-80 sm:p-10 md:min-h-[29rem]">
               {leadTrack?.image && <img src={leadTrack.image} alt="" className="absolute inset-0 h-full w-full scale-110 object-cover opacity-45 blur-2xl" />}
@@ -185,51 +190,54 @@ export default function MusicProfile() {
             </div>
 
             <div className="relative p-5 py-7 sm:p-10 lg:p-12">
-              <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-rose-500/10 blur-3xl" />
               <div className="relative">
-                <div className="eyebrow before:bg-gradient-to-r before:from-rose-400 before:to-fuchsia-500">Listening lately</div>
-                <h2 id="music-profile-title" className="mt-4 text-4xl font-semibold tracking-[-.045em] text-white sm:text-5xl">What’s been on repeat.</h2>
+                <div className="glass-mono text-[10px] uppercase tracking-[.22em] text-[var(--g-ink3)]">Listening lately</div>
+                <h2 id="music-profile-title" style={musicInkStyle} className="mt-4 text-[clamp(28px,3vw,42px)] font-normal tracking-[-.03em]">What&rsquo;s been on repeat.</h2>
 
-                {loading && <div className="mt-10 flex items-center gap-3 text-sm text-slate-500"><LoaderCircle size={17} className="animate-spin" /> Loading recent listens…</div>}
+                {loading && <div className="mt-10 flex items-center gap-3 text-sm text-[var(--g-ink3)]"><LoaderCircle size={17} className="animate-spin" /> Loading recent listens…</div>}
 
-                {leadTrack && <div className="mt-6 flex items-center gap-3 rounded-2xl border border-white/[.08] bg-white/[.04] p-3 transition active:bg-white/[.08] lg:hidden">
+                {leadTrack && <div className="glass-panel mt-6 flex items-center gap-3 p-3 lg:hidden">
                   <a href={leadTrack.url} target="_blank" rel="noreferrer" className="contents">
-                    {leadTrack.image ? <img src={leadTrack.image} alt="" className="h-14 w-14 shrink-0 rounded-xl object-cover" /> : <span className="grid h-14 w-14 shrink-0 place-items-center rounded-xl bg-white/[.06]"><Music2 size={18} /></span>}
+                    {leadTrack.image ? <img src={leadTrack.image} alt="" className="h-14 w-14 shrink-0 rounded-xl object-cover" /> : <span className="glass-slot grid h-14 w-14 shrink-0 place-items-center" style={musicInk3Style}><Music2 size={18} /></span>}
                   </a>
-                  <span className="min-w-0 flex-1"><span className="block text-[.62rem] font-semibold uppercase tracking-[.14em] text-rose-300">{leadTrack.nowPlaying ? 'Now playing' : 'Most recent'}</span><span className="mt-1 block truncate text-sm font-semibold text-white">{leadTrack.name}</span><span className="mt-0.5 block truncate text-xs text-slate-400">{leadTrack.artist}{leadTrack.album ? ` · ${leadTrack.album}` : ''}</span></span>
-                  <a href={leadTrack.url} target="_blank" rel="noreferrer" aria-label={`Open ${leadTrack.name} on Apple Music`} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[.06] text-white transition hover:bg-white/[.1]"><ArrowUpRight size={15} /></a>
+                  <span className="min-w-0 flex-1">
+                    <span className="glass-mono block text-[.62rem] font-semibold uppercase tracking-[.14em] text-[#e8447e]">{leadTrack.nowPlaying ? 'Now playing' : 'Most recent'}</span>
+                    <span style={musicInkStyle} className="mt-1 block truncate text-sm font-semibold">{leadTrack.name}</span>
+                    <span className="mt-0.5 block truncate text-xs text-[var(--g-ink4)]">{leadTrack.artist}{leadTrack.album ? ` · ${leadTrack.album}` : ''}</span>
+                  </span>
+                  <a href={leadTrack.url} target="_blank" rel="noreferrer" aria-label={`Open ${leadTrack.name} on Apple Music`} style={musicInkStyle} className="grid h-9 w-9 shrink-0 place-items-center rounded-full border" ><ArrowUpRight size={15} /></a>
                 </div>}
 
                 {!loading && available && data.tracks.length > 0 && <div className="mt-6 grid gap-7 sm:mt-8 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,.8fr)]">
                   <div>
-                    <p className="text-[.68rem] font-semibold uppercase tracking-[.16em] text-slate-500">Recent tracks</p>
-                    <div className="mt-3 space-y-2">{data.tracks.slice(leadTrack?.nowPlaying ? 1 : 0, 4).map((track) => <div key={`${track.name}-${track.artist}`} className="group flex items-center gap-3 rounded-xl p-2 transition hover:bg-white/[.05]">
+                    <p className="glass-mono text-[.68rem] font-semibold uppercase tracking-[.16em] text-[var(--g-ink3)]">Recent tracks</p>
+                    <div className="mt-3 space-y-2">{data.tracks.slice(leadTrack?.nowPlaying ? 1 : 0, 4).map((track) => <div key={`${track.name}-${track.artist}`} className="group flex items-center gap-3 rounded-xl p-2 transition hover:bg-[var(--g-hov)]">
                       <a href={track.url} target="_blank" rel="noreferrer" className="contents">
-                        {track.image ? <img src={track.image} alt="" className="h-11 w-11 rounded-lg object-cover" /> : <span className="grid h-11 w-11 place-items-center rounded-lg bg-white/5"><Music2 size={16} /></span>}
-                        <span className="min-w-0 flex-1"><span className="block truncate text-sm font-medium text-slate-200 group-hover:text-white">{track.name}</span><span className="mt-1 block truncate text-xs text-slate-500">{track.artist}</span></span>
+                        {track.image ? <img src={track.image} alt="" className="h-11 w-11 rounded-lg object-cover" /> : <span className="glass-slot grid h-11 w-11 place-items-center" style={musicInk3Style}><Music2 size={16} /></span>}
+                        <span className="min-w-0 flex-1"><span style={musicInkStyle} className="block truncate text-sm font-medium">{track.name}</span><span className="mt-1 block truncate text-xs text-[var(--g-ink4)]">{track.artist}</span></span>
                       </a>
-                      <a href={track.url} target="_blank" rel="noreferrer" aria-label={`Open ${track.name} on Apple Music`} className="grid h-8 w-8 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[.04] text-slate-300 opacity-100 transition hover:bg-white/[.09] hover:text-white lg:opacity-0 lg:group-hover:opacity-100"><ArrowUpRight size={13} /></a>
+                      <a href={track.url} target="_blank" rel="noreferrer" aria-label={`Open ${track.name} on Apple Music`} style={musicInk3Style} className="grid h-8 w-8 shrink-0 place-items-center rounded-full border opacity-100 transition lg:opacity-0 lg:group-hover:opacity-100"><ArrowUpRight size={13} /></a>
                     </div>)}</div>
                   </div>
                   <div>
                     <div className="mb-5 flex flex-wrap gap-2" aria-label="Filter Apple Music listening stats by time period">
-                      {musicPeriods.map((item) => <button type="button" key={item.value} onClick={() => setPeriod(item.value)} aria-pressed={period === item.value} className={`rounded-full border px-3.5 py-2 text-xs font-semibold transition ${period === item.value ? 'border-rose-300/50 bg-rose-400/15 text-rose-100' : 'border-white/10 bg-white/[.04] text-slate-400 hover:border-white/20 hover:text-white'}`}>{item.label}</button>)}
+                      {musicPeriods.map((item) => <button type="button" key={item.value} onClick={() => setPeriod(item.value)} aria-pressed={period === item.value} style={period === item.value ? { color: 'var(--g-pillink)', background: 'var(--g-pill)', borderColor: 'var(--g-edge2)' } : { color: 'var(--g-ink3)', borderColor: 'var(--g-edge)' }} className="glass-mono rounded-full border px-3.5 py-2 text-xs font-semibold transition">{item.label}</button>)}
                     </div>
-                    <p className="text-[.68rem] font-semibold uppercase tracking-[.16em] text-slate-500">Top artists · {selectedPeriod.label}</p>
-                    {artistsLoading ? <div className="mt-4 flex items-center gap-2 text-xs text-slate-500"><LoaderCircle size={14} className="animate-spin" /> Loading artists…</div> : <ol className="mt-4 space-y-3">{data.artists.map((artist, index) => <li key={artist.name}><a href={artist.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm transition hover:text-white"><span className="w-4 text-xs text-slate-600">{index + 1}</span><span className="min-w-0 flex-1 truncate text-slate-300">{artist.name}</span><span className="text-[.65rem] text-slate-600">{artist.playcount} plays</span></a></li>)}</ol>}
+                    <p className="glass-mono text-[.68rem] font-semibold uppercase tracking-[.16em] text-[var(--g-ink3)]">Top artists · {selectedPeriod.label}</p>
+                    {artistsLoading ? <div className="mt-4 flex items-center gap-2 text-xs text-[var(--g-ink3)]"><LoaderCircle size={14} className="animate-spin" /> Loading artists…</div> : <ol className="mt-4 space-y-3">{data.artists.map((artist, index) => <li key={artist.name}><a href={artist.url} target="_blank" rel="noreferrer" className="flex items-center gap-3 text-sm"><span className="glass-mono w-4 text-xs text-[var(--g-ink4)]">{index + 1}</span><span style={musicInk3Style} className="min-w-0 flex-1 truncate">{artist.name}</span><span className="glass-mono text-[.65rem] text-[var(--g-ink4)]">{artist.playcount} plays</span></a></li>)}</ol>}
                   </div>
                 </div>}
 
-                {!loading && (!available || data.tracks.length === 0) && <p className="mt-5 max-w-xl leading-7 text-slate-400">Music follows me through coding sessions, long drives, and everything between. Browse my public profile to see the playlists and music I’m sharing.</p>}
+                {!loading && (!available || data.tracks.length === 0) && <p className="mt-5 max-w-xl leading-7 text-[var(--g-ink2)]">Music follows me through coding sessions, long drives, and everything between. Browse my public profile to see the playlists and music I’m sharing.</p>}
 
                 <div className="mt-8 flex flex-wrap items-center gap-3">
-                  <a href={appleProfileUrl} target="_blank" rel="noreferrer" className="secondary-button w-full sm:w-auto"><Headphones size={16} /> Apple Music <ArrowUpRight size={15} /></a>
+                  <a href={appleProfileUrl} target="_blank" rel="noreferrer" style={{ color: 'var(--g-pillink)', background: 'var(--g-pill)' }} className="glass-mono inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-3 text-[11px] uppercase tracking-[.1em] sm:w-auto"><Headphones size={16} /> Apple Music <ArrowUpRight size={15} /></a>
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
       </div>
-    </section>
+    </div>
   )
 }

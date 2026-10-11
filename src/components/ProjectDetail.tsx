@@ -27,7 +27,7 @@ export default function ProjectDetail({ project }: { project: Project }) {
     <section className="section overflow-hidden">
       <div className="mesh-bg"><div className="mesh-grid" /></div>
       <div className="shell relative">
-        <a href="#/projects" className="mb-8 inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white">
+        <a href="/work" className="mb-8 inline-flex items-center gap-2 text-sm text-slate-400 transition hover:text-white">
           <ArrowLeft size={16} /> Back to all projects
         </a>
 
@@ -112,8 +112,8 @@ export default function ProjectDetail({ project }: { project: Project }) {
         </motion.section>}
 
         <nav aria-label="Adjacent projects" className="mt-10 grid gap-4 sm:grid-cols-2">
-          <a href={`#/projects/${getProjectSlug(previous)}`} className="glass card flex items-center gap-4 p-5"><ArrowLeft size={18} className="text-indigo-300" /><div><span className="text-xs text-slate-600">Previous project</span><div className="mt-1 font-medium text-white">{previous.title}</div></div></a>
-          <a href={`#/projects/${getProjectSlug(next)}`} className="glass card flex items-center justify-end gap-4 p-5 text-right"><div><span className="text-xs text-slate-600">Next project</span><div className="mt-1 font-medium text-white">{next.title}</div></div><ArrowRight size={18} className="text-indigo-300" /></a>
+          <a href={`/projects/${encodeURIComponent(getProjectSlug(previous))}`} className="glass card flex items-center gap-4 p-5"><ArrowLeft size={18} className="text-indigo-300" /><div><span className="text-xs text-slate-600">Previous project</span><div className="mt-1 font-medium text-white">{previous.title}</div></div></a>
+          <a href={`/projects/${encodeURIComponent(getProjectSlug(next))}`} className="glass card flex items-center justify-end gap-4 p-5 text-right"><div><span className="text-xs text-slate-600">Next project</span><div className="mt-1 font-medium text-white">{next.title}</div></div><ArrowRight size={18} className="text-indigo-300" /></a>
         </nav>
       </div>
     </section>

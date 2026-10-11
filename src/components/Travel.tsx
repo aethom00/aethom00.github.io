@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, Globe2, Home, Map as MapIcon, MapPin, Minus, Plus, Search, X } from 'lucide-react'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import type { Feature, FeatureCollection, Geometry } from 'geojson'
 import * as L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -122,6 +122,8 @@ const globeWheelMaxDelta = 100
 const globeWheelLineDelta = 16
 const globeWheelPageDelta = 800
 const degreeToRadian = Math.PI / 180
+const travelInkStyle: CSSProperties = { color: 'var(--g-ink)' }
+const travelInk3Style: CSSProperties = { color: 'var(--g-ink3)' }
 
 type GlobeRotation = { lat: number; lng: number }
 type Coordinate = [number, number]
@@ -383,46 +385,60 @@ export default function Travel() {
     setQuery('')
   }
 
-  return <section id="travel" className="section overflow-hidden"><BlurredPhotoParallax image="/ashton-travel.jpg" variant="travel" position="center 45%" /><div className="shell relative z-10">
-    <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="flex flex-col justify-between gap-8 lg:flex-row lg:items-end">
-      <div><div className="eyebrow">Travel atlas</div><h2 className="section-title">The world, explored.</h2><p className="section-copy">A living map of the cities, landmarks, countries, and territories that have shaped my view of the world.</p></div>
-      <div className="grid grid-cols-3 gap-2">
-        <Stat icon={Home} value={counts.lived} label="lived in" color="text-emerald-400" />
-        <Stat icon={MapPin} value={counts.visited} label="visited" color="text-blue-400" />
-        <Stat icon={Globe2} value={counts.country} label="countries" color="text-violet-400" />
-      </div>
-    </motion.div>
+  return (
+    <div id="travel" className="glass-root relative min-h-screen overflow-hidden">
+      <div aria-hidden="true" className="glass-bloom" />
+      <div aria-hidden="true" className="glass-bloom-2" />
 
-    <motion.div initial={{ opacity: 0, y: 25 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: .1 }} className="glass mt-10 overflow-hidden rounded-[1.5rem] p-2">
-      <div className="grid gap-3 p-2 lg:grid-cols-[minmax(16rem,1fr)_auto]">
-        <div className="relative z-[500]">
-          <label className="flex h-11 items-center gap-3 rounded-xl border border-white/[.08] bg-slate-950/80 px-3"><Search size={16} className="text-slate-500" /><span className="sr-only">Search travel locations</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`Search ${travelPlaces.length} locations`} className="w-full bg-transparent text-sm text-white placeholder:text-slate-600 focus:outline-none" />{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search" className="text-slate-500 hover:text-white"><X size={14} /></button>}</label>
-          {results.length > 0 && <div className="glass absolute inset-x-0 top-12 max-h-72 overflow-auto rounded-xl p-1 shadow-2xl">{results.map((place) => <button type="button" key={`${place.kind}:${place.name}`} onClick={() => focusPlace(place)} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition hover:bg-white/[.06]"><span className="h-2 w-2 rounded-full" style={{ backgroundColor: layerDetails[place.kind].color }} /><span className="text-sm text-slate-200">{place.name}</span><span className="ml-auto text-[.65rem] uppercase tracking-wider text-slate-600">{place.kind === 'country' ? 'country' : place.kind}</span></button>)}</div>}
-        </div>
-        <div className="flex flex-wrap gap-2 lg:justify-end">
-          <div className="flex h-11 overflow-hidden rounded-xl border border-white/[.08] bg-slate-950/70 p-1">
-            {([
-              { view: 'atlas' as const, label: 'Atlas', icon: MapIcon },
-              { view: 'globe' as const, label: 'Globe', icon: Globe2 },
-            ]).map(({ view, label, icon: Icon }) => <button type="button" key={view} onClick={() => setTravelView(view)} aria-pressed={travelView === view} className={`flex items-center gap-2 rounded-lg px-3 text-xs font-semibold transition ${travelView === view ? 'bg-white/[.1] text-white' : 'text-slate-500 hover:text-slate-200'}`}><Icon size={14} />{label}</button>)}
+      <div className="relative mx-auto max-w-[1180px] px-7 pb-[120px] pt-[110px]">
+        <div className="glass-panel-strong glass-fadeup relative flex flex-col justify-between gap-6 overflow-hidden p-11 lg:flex-row lg:items-end">
+          <div aria-hidden="true" className="glass-specular" />
+          <div className="relative z-[2]">
+            <div className="glass-mono mb-[16px] text-[10.5px] uppercase tracking-[.24em] text-[var(--g-ink3)]">Travel atlas</div>
+            <h1 style={travelInkStyle} className="max-w-[20ch] text-[clamp(30px,3.2vw,46px)] font-normal leading-[1.06] tracking-[-.03em]">The world, explored.</h1>
+            <p className="mt-4 max-w-[50ch] text-[15px] font-light leading-[1.6] text-[var(--g-ink2)]">A living map of the cities, landmarks, countries, and territories that have shaped my view of the world.</p>
           </div>
-          {googleMyMapsUrl && <a href={googleMyMapsUrl} target="_blank" rel="noreferrer" className="flex h-11 items-center gap-2 rounded-xl border border-white/[.08] bg-white/[.04] px-3 text-xs font-semibold text-slate-300 transition hover:border-white/20 hover:text-white">Google My Maps <ArrowUpRight size={13} /></a>}
-          {(Object.keys(layerDetails) as TravelKind[]).map((kind) => <button type="button" key={kind} onClick={() => setVisibleLayers((current) => ({ ...current, [kind]: !current[kind] }))} aria-pressed={visibleLayers[kind]} className={`flex h-11 items-center gap-2 rounded-xl border px-3 text-xs transition ${visibleLayers[kind] ? 'border-white/15 bg-white/[.07] text-white' : 'border-white/[.06] text-slate-600 hover:text-slate-300'}`}><span className={`h-2 w-2 rounded-full ${visibleLayers[kind] ? '' : 'opacity-30'}`} style={{ backgroundColor: layerDetails[kind].color }} />{layerDetails[kind].label}</button>)}
+          <div className="relative z-[2] grid grid-cols-3 gap-2">
+            <Stat icon={Home} value={counts.lived} label="lived in" color="text-emerald-500" />
+            <Stat icon={MapPin} value={counts.visited} label="visited" color="text-blue-500" />
+            <Stat icon={Globe2} value={counts.country} label="countries" color="text-violet-500" />
+          </div>
         </div>
-      </div>
 
-      {travelView === 'atlas' ? (
-        <div className="relative isolate overflow-hidden rounded-[1rem]">
-          <div ref={containerRef} className="travel-map h-[70vh] min-h-[34rem] w-full bg-[#07101d]" aria-label="Interactive map of places Ashton has visited" />
-          <button type="button" onClick={resetMap} className="glass absolute bottom-4 left-4 z-[450] flex h-10 items-center gap-2 rounded-xl px-3 text-xs text-slate-300 transition hover:text-white"><Globe2 size={14} />World view</button>
-          {selected && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass absolute bottom-4 left-1/2 z-[450] hidden -translate-x-1/2 items-center gap-3 rounded-xl px-4 py-3 sm:flex"><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: layerDetails[selected.kind].color }} /><div><div className="text-xs text-slate-500">{layerDetails[selected.kind].description}</div><div className="text-sm font-medium text-white">{selected.name}</div></div><button type="button" onClick={() => { setSelected(null); mapRef.current?.closePopup() }} aria-label="Close location details" className="ml-3 text-slate-600 hover:text-white"><X size={14} /></button></motion.div>}
+        <div className="glass-panel glass-fadeup mt-[18px] overflow-hidden p-3" style={{ animationDelay: '.08s' }}>
+          <div className="grid gap-3 p-2 lg:grid-cols-[minmax(16rem,1fr)_auto]">
+            <div className="relative z-[500]">
+              <label style={travelInkStyle} className="glass-panel flex h-11 items-center gap-3 rounded-full px-4"><Search size={16} style={travelInk3Style} /><span className="sr-only">Search travel locations</span><input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`Search ${travelPlaces.length} locations`} className="w-full bg-transparent text-sm placeholder:text-[var(--g-ink4)] focus:outline-none" />{query && <button type="button" onClick={() => setQuery('')} aria-label="Clear search" style={travelInk3Style}><X size={14} /></button>}</label>
+              {results.length > 0 && <div className="glass-panel-strong absolute inset-x-0 top-12 max-h-72 overflow-auto rounded-[18px] p-1">{results.map((place) => <button type="button" key={`${place.kind}:${place.name}`} onClick={() => focusPlace(place)} className="flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition hover:bg-[var(--g-hov)]"><span className="h-2 w-2 rounded-full" style={{ backgroundColor: layerDetails[place.kind].color }} /><span style={travelInkStyle} className="text-sm">{place.name}</span><span className="glass-mono ml-auto text-[.65rem] uppercase tracking-wider text-[var(--g-ink4)]">{place.kind === 'country' ? 'country' : place.kind}</span></button>)}</div>}
+            </div>
+            <div className="flex flex-wrap gap-2 lg:justify-end">
+              <div className="glass-panel flex h-11 overflow-hidden rounded-full p-1">
+                {([
+                  { view: 'atlas' as const, label: 'Atlas', icon: MapIcon },
+                  { view: 'globe' as const, label: 'Globe', icon: Globe2 },
+                ]).map(({ view, label, icon: Icon }) => <button type="button" key={view} onClick={() => setTravelView(view)} aria-pressed={travelView === view} style={travelView === view ? { color: 'var(--g-pillink)', background: 'var(--g-pill)' } : travelInk3Style} className="glass-mono flex items-center gap-2 rounded-full px-3 text-xs font-semibold transition"><Icon size={14} />{label}</button>)}
+              </div>
+              {googleMyMapsUrl && <a href={googleMyMapsUrl} target="_blank" rel="noreferrer" style={travelInk3Style} className="glass-panel flex h-11 items-center gap-2 rounded-full px-3 text-xs font-semibold transition">Google My Maps <ArrowUpRight size={13} /></a>}
+              {(Object.keys(layerDetails) as TravelKind[]).map((kind) => <button type="button" key={kind} onClick={() => setVisibleLayers((current) => ({ ...current, [kind]: !current[kind] }))} aria-pressed={visibleLayers[kind]} style={visibleLayers[kind] ? travelInkStyle : travelInk3Style} className="glass-panel flex h-11 items-center gap-2 rounded-full px-3 text-xs transition"><span className={`h-2 w-2 rounded-full ${visibleLayers[kind] ? '' : 'opacity-30'}`} style={{ backgroundColor: layerDetails[kind].color }} />{layerDetails[kind].label}</button>)}
+            </div>
+          </div>
+
+          {travelView === 'atlas' ? (
+            <div className="relative isolate mt-1 overflow-hidden rounded-[1rem]">
+              <div ref={containerRef} className="travel-map h-[70vh] min-h-[34rem] w-full bg-[#07101d]" aria-label="Interactive map of places Ashton has visited" />
+              <button type="button" onClick={resetMap} style={travelInk3Style} className="glass-panel-strong absolute bottom-4 left-4 z-[450] flex h-10 items-center gap-2 rounded-full px-3 text-xs transition"><Globe2 size={14} />World view</button>
+              {selected && <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass-panel-strong absolute bottom-4 left-1/2 z-[450] hidden -translate-x-1/2 items-center gap-3 rounded-[18px] px-4 py-3 sm:flex"><span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: layerDetails[selected.kind].color }} /><div><div className="glass-mono text-xs text-[var(--g-ink4)]">{layerDetails[selected.kind].description}</div><div style={travelInkStyle} className="text-sm font-medium">{selected.name}</div></div><button type="button" onClick={() => { setSelected(null); mapRef.current?.closePopup() }} aria-label="Close location details" style={travelInk3Style} className="ml-3"><X size={14} /></button></motion.div>}
+            </div>
+          ) : (
+            <div className="mt-1">
+              <InteractiveGlobe selected={selected} visibleLayers={visibleLayers} onSelect={setSelected} onReset={resetMap} globeCountryRings={countryData?.globeCountryRings ?? []} />
+            </div>
+          )}
         </div>
-      ) : (
-        <InteractiveGlobe selected={selected} visibleLayers={visibleLayers} onSelect={setSelected} onReset={resetMap} globeCountryRings={countryData?.globeCountryRings ?? []} />
-      )}
-    </motion.div>
-    <p className="mt-4 text-center text-xs text-slate-600">Map data migrated from the original travel atlas. Tiles by OpenStreetMap and CARTO; boundaries by Natural Earth and geoBoundaries.</p>
-  </div></section>
+        <p className="glass-mono mt-4 text-center text-xs text-[var(--g-ink4)]">Map data migrated from the original travel atlas. Tiles by OpenStreetMap and CARTO; boundaries by Natural Earth and geoBoundaries.</p>
+      </div>
+    </div>
+  )
 }
 
 export function HomeGlobeSection() {
@@ -446,7 +462,7 @@ export function HomeGlobeSection() {
               <Stat icon={MapPin} value={counts.visited} label="visited" color="text-blue-400" />
               <Stat icon={Globe2} value={counts.country} label="countries" color="text-violet-400" />
             </div>
-            <a href="#/travel" className="glass flex h-12 items-center justify-center gap-2 rounded-xl px-4 text-xs font-semibold text-slate-300 transition hover:text-white">Open atlas <ArrowUpRight size={14} /></a>
+            <a href="/travel" className="glass flex h-12 items-center justify-center gap-2 rounded-xl px-4 text-xs font-semibold text-slate-300 transition hover:text-white">Open atlas <ArrowUpRight size={14} /></a>
           </div>
         </motion.div>
 
@@ -913,5 +929,5 @@ function InteractiveGlobe({ selected, visibleLayers, onSelect, onReset, globeCou
 }
 
 function Stat({ icon: Icon, value, label, color }: { icon: typeof Globe2; value: number; label: string; color: string }) {
-  return <div className="glass min-w-24 rounded-xl px-4 py-3"><Icon size={15} className={color} /><div className="mt-2 text-xl font-semibold text-white">{value}</div><div className="text-[.65rem] text-slate-600">{label}</div></div>
+  return <div className="glass-panel min-w-24 px-4 py-3"><Icon size={15} className={color} /><div style={travelInkStyle} className="mt-2 text-xl font-semibold">{value}</div><div className="glass-mono text-[.65rem] text-[var(--g-ink3)]">{label}</div></div>
 }

@@ -1,13 +1,14 @@
-import { AnimatePresence, motion, useScroll, useSpring, useTransform } from 'framer-motion'
-import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react'
-import Navbar from './components/Navbar'
-import Hero from './components/Hero'
-import About from './components/About'
+import { AnimatePresence, motion, useScroll, useSpring } from 'framer-motion'
+import { lazy, Suspense, useEffect, useState } from 'react'
+import Nav from './components/Nav'
+import HomePage from './components/HomePage'
+import AboutPage from './components/AboutPage'
+import WorkPage from './components/WorkPage'
+import ResumePage from './components/ResumePage'
+import ContactPage from './components/ContactPage'
 import Volunteering from './components/Volunteering'
 import Projects from './components/Projects'
 import Research from './components/Research'
-import ResumeCard from './components/ResumeCard'
-import Contact from './components/Contact'
 import Footer from './components/Footer'
 import ProjectDetail from './components/ProjectDetail'
 import MusicProfile from './components/MusicProfile'
@@ -16,29 +17,33 @@ import SiteTranslator from './i18n/SiteTranslator'
 import { getProjectBySlug } from './data/projects'
 
 const Travel = lazy(() => import('./components/Travel'))
-const HomeGlobeSection = lazy(() => import('./components/Travel').then((module) => ({ default: module.HomeGlobeSection })))
 const Experience = lazy(() => import('./components/Experience'))
 const Education = lazy(() => import('./components/Education'))
 const Timeline = lazy(() => import('./components/Timeline'))
 const VisualEffectsLab = lazy(() => import('./components/VisualEffectsLab'))
 
-const pages = ['home', 'about', 'experience', 'volunteering', 'education', 'projects', 'research', 'timeline', 'travel', 'contact', 'effects'] as const
+const pages = ['home', 'work', 'about', 'resume', 'experience', 'volunteering', 'education', 'projects', 'research', 'timeline', 'travel', 'contact', 'effects'] as const
 type Page = (typeof pages)[number]
 
 const pageTitles: Partial<Record<Page, string>> = {
   timeline: 'Photos',
+  work: 'Work',
 }
 
 function readRoute(): { page: Page, projectSlug?: string } {
-  const rawPath = window.location.hash.startsWith('#/') ? window.location.hash.slice(2) || 'home' : 'home'
-  const path = rawPath.split('?')[0]
-  const [candidate, projectSlug] = path.split('/')
-  if (candidate === 'projects' && projectSlug) return { page: 'projects', projectSlug }
+  const path = window.location.pathname.replace(/\/+$/, '')
+  const segments = path.split('/').filter(Boolean)
+  const [candidate, rawSlug] = segments
+  if (candidate === 'projects' && rawSlug) return { page: 'projects', projectSlug: decodeURIComponent(rawSlug) }
   return { page: pages.includes(candidate as Page) ? candidate as Page : 'home' }
 }
 
 function readPage(): Page {
   return readRoute().page
+}
+
+function isInternalPathHref(href: string) {
+  return href.startsWith('/') && !href.startsWith('//')
 }
 
 function SectionFallback() {
@@ -47,94 +52,21 @@ function SectionFallback() {
 
 function PageContent({ page }: { page: Page }) {
   switch (page) {
-    case 'about': return <><HomeAtmosphere><About /></HomeAtmosphere><Suspense fallback={<SectionFallback />}><Timeline /></Suspense></>
+    case 'home': return <HomePage />
+    case 'work': return <WorkPage />
+    case 'about': return <AboutPage />
+    case 'resume': return <ResumePage />
     case 'experience': return <Suspense fallback={<SectionFallback />}><Experience /></Suspense>
     case 'volunteering': return <Volunteering />
     case 'education': return <><Suspense fallback={<SectionFallback />}><Education /></Suspense><Suspense fallback={<SectionFallback />}><Timeline variant="education" /></Suspense></>
     case 'projects': return <Projects />
-    case 'research': return <Research />
+    case 'research': return <div className="glass-root relative min-h-screen overflow-hidden"><div aria-hidden="true" className="glass-bloom" /><div aria-hidden="true" className="glass-bloom-2" /><div className="relative mx-auto max-w-[1180px] px-7 pb-[120px] pt-[110px]"><Research /></div></div>
     case 'timeline': return <Suspense fallback={<SectionFallback />}><Timeline /></Suspense>
-    case 'travel': return <Suspense fallback={<div className="grid min-h-[70vh] place-items-center text-sm text-slate-500">Loading travel atlas…</div>}><Travel /></Suspense>
-    case 'contact': return <><MusicProfile /><ResumeCard /><Contact /></>
+    case 'travel': return <Suspense fallback={<div className="glass-root grid min-h-screen place-items-center text-sm text-[var(--g-ink3)]">Loading travel atlas…</div>}><Travel /></Suspense>
+    case 'contact': return <><ContactPage /><MusicProfile /></>
     case 'effects': return <Suspense fallback={<SectionFallback />}><VisualEffectsLab /></Suspense>
-    default: return <><Hero /><HomeAtmosphere><About /><Projects featured /><Research /><Volunteering /><LazyHomeGlobeSection /><MusicProfile /><ResumeCard /><Contact /></HomeAtmosphere></>
+    default: return <HomePage />
   }
-}
-
-function HomeGlobeFallback() {
-  return (
-    <section id="home-globe" className="section overflow-hidden">
-      <div className="shell">
-        <div className="glass relative overflow-hidden rounded-[1.5rem] p-8">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_20%,rgba(96,165,250,.12),transparent_34%),radial-gradient(circle_at_80%_40%,rgba(167,139,250,.12),transparent_36%)]" />
-          <div className="relative z-10 grid min-h-[22rem] place-items-center text-center">
-            <div>
-              <div className="eyebrow justify-center">Travel globe</div>
-              <h2 className="mt-4 text-3xl font-semibold tracking-[-.04em] text-white sm:text-4xl">Preparing the world view.</h2>
-              <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-500">The globe is lazy-loaded so the home page stays quick, then the map data arrives as you scroll here.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function LazyHomeGlobeSection() {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const [shouldLoad, setShouldLoad] = useState(() => typeof window !== 'undefined' && !('IntersectionObserver' in window))
-
-  useEffect(() => {
-    if (shouldLoad) return
-    const element = ref.current
-    if (!element) return
-    if (!('IntersectionObserver' in window)) return
-
-    const observer = new IntersectionObserver((entries) => {
-      if (!entries.some((entry) => entry.isIntersecting)) return
-      setShouldLoad(true)
-      observer.disconnect()
-    }, { rootMargin: '700px 0px' })
-
-    observer.observe(element)
-    return () => observer.disconnect()
-  }, [shouldLoad])
-
-  return (
-    <div ref={ref}>
-      {shouldLoad ? (
-        <Suspense fallback={<HomeGlobeFallback />}>
-          <HomeGlobeSection />
-        </Suspense>
-      ) : <HomeGlobeFallback />}
-    </div>
-  )
-}
-
-function HomeAtmosphere({ children }: { children: ReactNode }) {
-  const ref = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
-  const warmDrift = useTransform(scrollYProgress, [0, 1], ['-8%', '10%'])
-  const coolDrift = useTransform(scrollYProgress, [0, 1], ['7%', '-12%'])
-  const violetDrift = useTransform(scrollYProgress, [0, 1], ['-4%', '12%'])
-  const hazeDrift = useTransform(scrollYProgress, [0, 1], ['5%', '-6%'])
-
-  return (
-    <div ref={ref} className="home-atmosphere relative isolate overflow-hidden">
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 overflow-hidden">
-        <motion.div style={{ y: warmDrift }} className="home-gradient-field home-gradient-warm" />
-        <motion.div style={{ y: coolDrift }} className="home-gradient-field home-gradient-cool" />
-        <motion.div style={{ y: violetDrift }} className="home-gradient-field home-gradient-violet" />
-        <motion.div style={{ y: hazeDrift }} className="home-gradient-field home-gradient-haze" />
-        <motion.div style={{ y: warmDrift }} className="home-gradient-sweep home-gradient-sweep-a" />
-        <motion.div style={{ y: coolDrift }} className="home-gradient-sweep home-gradient-sweep-b" />
-        <div className="home-atmosphere-texture" />
-        <div className="home-atmosphere-vignette" />
-      </div>
-
-      <div className="relative z-10">{children}</div>
-    </div>
-  )
 }
 
 export default function App() {
@@ -145,20 +77,32 @@ export default function App() {
 
   useEffect(() => {
     const updatePage = () => { const route = readRoute(); setPage(route.page); setProjectSlug(route.projectSlug) }
-    window.addEventListener('hashchange', updatePage)
     window.addEventListener('popstate', updatePage)
-    return () => {
-      window.removeEventListener('hashchange', updatePage)
-      window.removeEventListener('popstate', updatePage)
-    }
+    return () => window.removeEventListener('popstate', updatePage)
   }, [])
 
-  const navigate = useCallback((nextPage: string) => {
-    const target = pages.includes(nextPage as Page) ? nextPage as Page : 'home'
-    const nextHash = target === 'home' ? '#/' : `#/${target}`
-    if (window.location.hash !== nextHash) window.history.pushState(null, '', nextHash)
-    setPage(target)
-    setProjectSlug(undefined)
+  useEffect(() => {
+    const handleClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0) return
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
+      const anchor = (event.target as HTMLElement).closest('a')
+      if (!anchor) return
+      if (anchor.target && anchor.target !== '_self') return
+      if (anchor.hasAttribute('download')) return
+      const href = anchor.getAttribute('href')
+      if (!href || !isInternalPathHref(href)) return
+      event.preventDefault()
+      const url = new URL(href, window.location.origin)
+      const nextUrl = url.pathname + url.search + url.hash
+      if (window.location.pathname + window.location.search + window.location.hash !== nextUrl) {
+        window.history.pushState(null, '', nextUrl)
+      }
+      const route = readRoute()
+      setPage(route.page)
+      setProjectSlug(route.projectSlug)
+    }
+    document.addEventListener('click', handleClick)
+    return () => document.removeEventListener('click', handleClick)
   }, [])
 
   useEffect(() => {
@@ -177,7 +121,7 @@ export default function App() {
       <SiteTranslator />
       <a className="skip-link" href="#main" onClick={skipToContent}>Skip to content</a>
       <motion.div className="fixed inset-x-0 top-0 z-[70] h-px origin-left bg-gradient-to-r from-blue-500 via-indigo-400 to-purple-500" style={{ scaleX }} />
-      <Navbar activePage={page} onNavigate={navigate} />
+      <Nav activePage={page} />
       <AppleMusicDock />
       <main id="main" tabIndex={-1}>
         <AnimatePresence mode="wait">
