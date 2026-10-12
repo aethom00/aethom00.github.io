@@ -453,16 +453,16 @@ nav.glass { background: linear-gradient(145deg, rgba(var(--panel),.99), rgba(var
 :root[data-theme="summer"] .primary-button { background: linear-gradient(110deg, #14b8a6, #eab308); box-shadow: 0 12px 34px rgba(234,179,8,.17); }
 .secondary-button { border: 1px solid rgba(148,163,184,.17); background: rgba(15,23,42,.55); color: #dbeafe; }
 .primary-button:hover, .secondary-button:hover { transform: translateY(-2px); border-color: rgba(129,140,248,.4); box-shadow: 0 16px 40px rgba(79,70,229,.22); }
-.timeline-line { background: linear-gradient(to bottom, var(--accent-a), var(--accent-b) 75%, transparent); }
+.timeline-line { background: linear-gradient(to bottom, var(--g-edge2, var(--accent-a)), var(--g-edge, var(--accent-b)) 75%, transparent); }
 .timeline-journey { display: grid; grid-template-columns: minmax(0, 1fr) minmax(20rem, .78fr); gap: clamp(2rem, 6vw, 5rem); align-items: start; }
 .timeline-event { border-radius: 1.35rem; outline: none; }
 .timeline-event.timeline-event:focus,
 .timeline-event.timeline-event:focus-visible { outline: none; outline-offset: 0; }
-.timeline-event-card { position: relative; border: 1px solid transparent; border-radius: 1.35rem; padding: 1.15rem 1.2rem; background: rgba(3, 7, 18, .28); transition: border-color .25s ease, background .25s ease, box-shadow .25s ease, transform .25s ease; }
+.timeline-event-card { position: relative; border: 1px solid var(--g-edge, transparent); border-radius: 1.35rem; padding: 1.15rem 1.2rem; background: linear-gradient(150deg, var(--g-g1, rgba(3, 7, 18, .28)), var(--g-g2, rgba(3, 7, 18, .28))); backdrop-filter: blur(30px) saturate(200%); -webkit-backdrop-filter: blur(30px) saturate(200%); transition: border-color .25s ease, background .25s ease, box-shadow .25s ease, transform .25s ease; }
 .timeline-event-active .timeline-event-card,
 .timeline-event:focus-visible .timeline-event-card,
-.timeline-event:hover .timeline-event-card { border-color: rgba(var(--accent-rgb), .28); background: rgba(15, 23, 42, .54); box-shadow: 0 24px 70px rgba(0, 0, 0, .22), inset 0 1px 0 rgba(255, 255, 255, .04); transform: translateX(.18rem); }
-.timeline-event-active .timeline-dot { border-color: var(--accent); box-shadow: 0 0 24px rgba(var(--accent-rgb), .85); }
+.timeline-event:hover .timeline-event-card { border-color: var(--g-edge2); background: linear-gradient(150deg, var(--g-gs1), var(--g-gs2)); box-shadow: 0 24px 70px var(--g-shadow), inset 0 1px 0 var(--g-inset); transform: translateX(.18rem); }
+.timeline-event-active .timeline-dot { border-color: var(--g-ink); box-shadow: 0 0 24px var(--g-shadow2); }
 .timeline-photo-rail { position: sticky; top: 6.5rem; display: none; min-height: 32rem; }
 .timeline-photo-frame { position: relative; min-height: 32rem; overflow: hidden; border: 1px solid rgba(148, 163, 184, .16); border-radius: 2rem; background: rgba(2, 6, 23, .56); box-shadow: 0 28px 90px rgba(0, 0, 0, .34); isolation: isolate; }
 .timeline-photo-frame::before { content: ""; position: absolute; inset: 0; z-index: 2; background: radial-gradient(circle at 28% 22%, rgba(255, 255, 255, .18), transparent 22%), linear-gradient(180deg, rgba(3, 7, 18, .02), rgba(3, 7, 18, .58)); pointer-events: none; }
@@ -483,7 +483,6 @@ nav.glass { background: linear-gradient(145deg, rgba(var(--panel),.99), rgba(var
 .timeline-photo-caption span { color: rgba(226, 232, 240, .74); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
 .timeline-photo-caption strong { font-size: clamp(1.25rem, 3vw, 2rem); font-weight: 800; letter-spacing: .08em; text-shadow: 0 12px 30px rgba(0, 0, 0, .45); }
 .timeline-photo-caption p { max-width: 31rem; color: rgba(226, 232, 240, .82); font-size: .86rem; line-height: 1.55; text-shadow: 0 10px 28px rgba(0, 0, 0, .58); }
-.timeline-section-photos .shell { width: min(1480px, calc(100% - 2rem)); }
 .timeline-section-photos .timeline-journey { grid-template-columns: minmax(19rem, .62fr) minmax(34rem, 1.38fr); gap: clamp(2rem, 4vw, 4rem); }
 .timeline-section-photos .timeline-photo-rail { top: 5.75rem; min-height: min(76vh, 52rem); }
 .timeline-section-photos .timeline-photo-frame { min-height: min(76vh, 52rem); border-radius: 2.25rem; }

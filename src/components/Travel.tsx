@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowUpRight, Globe2, Home, Map as MapIcon, MapPin, Minus, Plus, Search, X } from 'lucide-react'
+import { ArrowUpRight, Camera, Globe2, Home, Map as MapIcon, MapPin, Minus, Plus, Search, X } from 'lucide-react'
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import type { Feature, FeatureCollection, Geometry } from 'geojson'
 import * as L from 'leaflet'
@@ -397,6 +397,7 @@ export default function Travel() {
             <div className="glass-mono mb-[16px] text-[10.5px] uppercase tracking-[.24em] text-[var(--g-ink3)]">Travel atlas</div>
             <h1 style={travelInkStyle} className="max-w-[20ch] text-[clamp(30px,3.2vw,46px)] font-normal leading-[1.06] tracking-[-.03em]">The world, explored.</h1>
             <p className="mt-4 max-w-[50ch] text-[15px] font-light leading-[1.6] text-[var(--g-ink2)]">A living map of the cities, landmarks, countries, and territories that have shaped my view of the world.</p>
+            <a href="/timeline" style={travelInkStyle} className="mt-5 inline-flex items-center gap-2 text-sm font-semibold"><Camera size={15} /> Browse the photo timeline <ArrowUpRight size={15} /></a>
           </div>
           <div className="relative z-[2] grid grid-cols-3 gap-2">
             <Stat icon={Home} value={counts.lived} label="lived in" color="text-emerald-500" />

@@ -15,9 +15,8 @@ import { getProjectBySlug } from './data/projects'
 
 const Travel = lazy(() => import('./components/Travel'))
 const Timeline = lazy(() => import('./components/Timeline'))
-const VisualEffectsLab = lazy(() => import('./components/VisualEffectsLab'))
 
-const pages = ['home', 'work', 'about', 'resume', 'timeline', 'travel', 'contact', 'effects'] as const
+const pages = ['home', 'work', 'about', 'resume', 'timeline', 'travel', 'contact'] as const
 type Page = (typeof pages)[number]
 
 const pageTitles: Partial<Record<Page, string>> = {
@@ -54,7 +53,6 @@ function PageContent({ page }: { page: Page }) {
     case 'timeline': return <Suspense fallback={<SectionFallback />}><Timeline /></Suspense>
     case 'travel': return <Suspense fallback={<div className="glass-root grid min-h-screen place-items-center text-sm text-[var(--g-ink3)]">Loading travel atlas…</div>}><Travel /></Suspense>
     case 'contact': return <><ContactPage /><MusicProfile /></>
-    case 'effects': return <Suspense fallback={<SectionFallback />}><VisualEffectsLab /></Suspense>
     default: return <HomePage />
   }
 }

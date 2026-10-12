@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react'
-import { type KeyboardEvent as ReactKeyboardEvent, type WheelEvent as ReactWheelEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { type CSSProperties, type KeyboardEvent as ReactKeyboardEvent, type WheelEvent as ReactWheelEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 type TimelineEvent = {
   dateLabel: string
@@ -14,11 +14,9 @@ type TimelineEvent = {
   meta?: string
 }
 
-type TimelineVariant = 'photos' | 'education' | 'all'
-
-type TimelineProps = {
-  variant?: TimelineVariant
-}
+const inkStyle: CSSProperties = { color: 'var(--g-ink)' }
+const ink2Style: CSSProperties = { color: 'var(--g-ink2)' }
+const ink3Style: CSSProperties = { color: 'var(--g-ink3)' }
 
 type TimelineWheelIntent = {
   amount: number
@@ -276,95 +274,6 @@ const photoEvents: TimelineEvent[] = [
   },
 ]
 
-const milestoneEvents: TimelineEvent[] = [
-  {
-    dateLabel: 'June 2022',
-    sortDate: '2022-06-01T00:00:00',
-    title: 'High school diploma',
-    text: 'Graduated from high school before completing an accelerated early-college path.',
-    kind: 'milestone',
-    image: '/images/academic-photos/Highschool_Graduation.jpeg',
-    imagePosition: 'center 45%',
-    place: 'HIGH SCHOOL GRADUATION',
-    meta: 'Education',
-  },
-  {
-    dateLabel: 'June 2022',
-    sortDate: '2022-06-01T00:00:01',
-    title: 'Associate’s degree',
-    text: 'Completed an Associate Degree in Liberal Arts at Northwestern Michigan College.',
-    kind: 'milestone',
-    meta: 'Education',
-  },
-  {
-    dateLabel: 'September 2024',
-    sortDate: '2024-09-01T00:00:00',
-    title: 'Polk Lab',
-    text: 'Started computational neuroscience research work at the University of Michigan Polk Lab.',
-    kind: 'milestone',
-    meta: 'Research',
-  },
-  {
-    dateLabel: 'September 2024',
-    sortDate: '2024-09-01T00:00:01',
-    title: 'Amazon internship',
-    text: 'Completed a Fall 2024 SDE internship on Alexa endpoint experiences in Boston.',
-    kind: 'milestone',
-    meta: 'Experience',
-  },
-  {
-    dateLabel: 'May 2025',
-    sortDate: '2025-05-01T00:00:00',
-    title: 'Bachelor’s degree',
-    text: 'Earned a B.S.E. in Computer Science Engineering with a minor in International Engineering from the University of Michigan College of Engineering.',
-    kind: 'milestone',
-    image: '/images/academic-photos/Bachelors_Graduation.jpeg',
-    imagePosition: 'center 45%',
-    place: 'UNIVERSITY OF MICHIGAN',
-    meta: 'Education',
-  },
-  {
-    dateLabel: 'June 2025',
-    sortDate: '2025-06-01T00:00:00',
-    title: 'Amazon full-time',
-    text: 'Started full-time at AWS, working on developer-insights platforms, observability, data pipelines, and engineering automation tooling.',
-    kind: 'milestone',
-    meta: 'Experience',
-  },
-  {
-    dateLabel: 'May 2026',
-    sortDate: '2026-05-01T00:00:00',
-    title: 'Master’s degree',
-    text: 'Completed an M.S.E. in Computer Engineering with a Computer Vision Concentration through the University of Michigan Rackham Graduate School and College of Engineering.',
-    kind: 'milestone',
-    meta: 'Education',
-  },
-]
-
-const timelineCopy: Record<TimelineVariant, { id: string, eyebrow: string, title: string }> = {
-  photos: {
-    id: 'timeline',
-    eyebrow: 'Photo Timeline',
-    title: 'Places, frame by frame.',
-  },
-  education: {
-    id: 'education-timeline',
-    eyebrow: 'Education Timeline',
-    title: 'Degrees, in order.',
-  },
-  all: {
-    id: 'timeline',
-    eyebrow: 'Timeline',
-    title: 'A path through work, school, and places.',
-  },
-}
-
-const getTimelineEvents = (variant: TimelineVariant) => {
-  if (variant === 'education') return milestoneEvents.filter((event) => event.meta === 'Education').sort((a, b) => a.sortDate.localeCompare(b.sortDate))
-  if (variant === 'all') return [...photoEvents, ...milestoneEvents].sort((a, b) => a.sortDate.localeCompare(b.sortDate))
-  return [...photoEvents].sort((a, b) => a.sortDate.localeCompare(b.sortDate))
-}
-
 function normalizeTarget(value?: string) {
   return (value ?? '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim()
 }
@@ -395,10 +304,9 @@ function findRequestedPhotoIndex(events: TimelineEvent[], target: { photo: strin
   return -1
 }
 
-export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
-  const events = useMemo(() => getTimelineEvents(variant), [variant])
+export default function Timeline() {
+  const events = useMemo(() => [...photoEvents].sort((a, b) => a.sortDate.localeCompare(b.sortDate)), [])
   const imageEvents = useMemo(() => events.filter((event) => event.image), [events])
-  const copy = timelineCopy[variant]
   const [activeIndex, setActiveIndex] = useState(0)
   const [fullscreenEvent, setFullscreenEvent] = useState<TimelineEvent | null>(null)
   const sectionRef = useRef<HTMLElement | null>(null)
@@ -479,8 +387,6 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
   }, [events.length, centerSelectedEvent])
 
   useEffect(() => {
-    if (variant !== 'photos') return undefined
-
     const selectRequestedPhoto = (behavior: ScrollBehavior = 'smooth') => {
       const targetIndex = findRequestedPhotoIndex(events, getRequestedPhotoTarget())
       if (targetIndex < 0) return
@@ -492,7 +398,7 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
     selectRequestedPhoto('auto')
     window.addEventListener('popstate', handlePopState)
     return () => window.removeEventListener('popstate', handlePopState)
-  }, [events, variant, selectEvent])
+  }, [events, selectEvent])
 
   const getKeyTargetIndex = (key: string, index: number) => {
     const keyActions: Record<string, number> = {
@@ -518,7 +424,6 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
   }
 
   const handleTimelineWheel = (event: ReactWheelEvent<HTMLElement>) => {
-    if (variant !== 'photos') return
     if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return
 
     const delta = normalizedTimelineWheelDelta(event)
@@ -555,10 +460,12 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
   }
 
   return (
-    <section id={copy.id} className={`section timeline-section timeline-section-${variant}`} ref={sectionRef} onWheel={handleTimelineWheel}>
-      <div className="shell">
-        <div className="eyebrow">{copy.eyebrow}</div>
-        <h2 className="section-title">{copy.title}</h2>
+    <div id="timeline" className="glass-root timeline-section-photos relative min-h-screen overflow-hidden" ref={sectionRef} onWheel={handleTimelineWheel}>
+      <div aria-hidden="true" className="glass-bloom" />
+      <div aria-hidden="true" className="glass-bloom-2" />
+      <div className="relative mx-auto max-w-[1480px] px-7 pb-[120px] pt-[110px]">
+        <div className="glass-mono text-[10px] uppercase tracking-[.22em] text-[var(--g-ink3)]">Photo Timeline</div>
+        <h1 style={inkStyle} className="mt-3 max-w-[26ch] text-[clamp(30px,3.2vw,46px)] font-normal tracking-[-.03em]">Places, frame by frame.</h1>
 
         <div className="timeline-journey mt-14">
           <div className="relative">
@@ -590,9 +497,9 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
                 aria-label={`${event.dateLabel}: ${event.title}. Use arrow keys to move through the timeline.`}
                 className={`timeline-event relative grid grid-cols-[5.5rem_1fr] gap-8 pb-12 sm:grid-cols-[7.5rem_1fr] ${activeIndex === i ? 'timeline-event-active' : ''}`}
               >
-                <div className="pt-1 text-right text-sm font-medium text-indigo-300">{event.dateLabel}</div>
+                <div style={ink3Style} className="pt-1 text-right text-sm font-medium">{event.dateLabel}</div>
                 <div className="relative pl-4">
-                  <span className="timeline-dot absolute -left-[.46rem] top-1.5 h-3 w-3 rounded-full border-2 border-indigo-400 bg-[#030712] shadow-[0_0_18px_rgba(99,102,241,.7)]" />
+                  <span className="timeline-dot absolute -left-[.46rem] top-1.5 h-3 w-3 rounded-full border-2" style={{ borderColor: 'var(--g-edge2)', background: 'var(--g-bg)' }} />
                   <div className="timeline-event-card">
                     {event.image && (
                       <div className="timeline-mobile-photo mb-4 overflow-hidden rounded-2xl border border-white/10 md:hidden">
@@ -617,10 +524,10 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
                         </button>
                       </div>
                     )}
-                    <div className="mb-3 inline-flex rounded-full border border-white/10 bg-white/[.04] px-2.5 py-1 text-[.62rem] font-bold uppercase tracking-[.18em] text-slate-400">{event.kind === 'photo' ? 'Photo' : event.meta}</div>
-                    <h3 className="font-semibold text-white">{event.title}</h3>
-                    <p className="mt-2 leading-6 text-slate-500">{event.text}</p>
-                    <div className="mt-4 text-[.65rem] font-bold uppercase tracking-[.24em] text-indigo-300/80">{event.meta ?? event.place}</div>
+                    <div className="mb-3 inline-flex rounded-full border px-2.5 py-1 text-[.62rem] font-bold uppercase tracking-[.18em]" style={{ ...ink3Style, borderColor: 'var(--g-slotedge)', background: 'var(--g-slot)' }}>{event.kind === 'photo' ? 'Photo' : event.meta}</div>
+                    <h3 style={inkStyle} className="font-semibold">{event.title}</h3>
+                    <p style={ink2Style} className="mt-2 leading-6">{event.text}</p>
+                    <div style={ink3Style} className="mt-4 text-[.65rem] font-bold uppercase tracking-[.24em]">{event.meta ?? event.place}</div>
                   </div>
                 </div>
               </motion.div>
@@ -745,6 +652,6 @@ export default function Timeline({ variant = 'photos' }: TimelineProps = {}) {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </div>
   )
 }
