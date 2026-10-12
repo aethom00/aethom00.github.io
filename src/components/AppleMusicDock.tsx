@@ -11,11 +11,14 @@ export default function AppleMusicDock() {
 
     if (scrollToMusic()) return
 
-    window.location.hash = '#/'
+    if (window.location.pathname !== '/contact') {
+      window.history.pushState(null, '', '/contact')
+      window.dispatchEvent(new PopStateEvent('popstate'))
+    }
     let attempts = 0
-    const waitForHome = window.setInterval(() => {
+    const waitForContact = window.setInterval(() => {
       attempts += 1
-      if (scrollToMusic() || attempts > 20) window.clearInterval(waitForHome)
+      if (scrollToMusic() || attempts > 20) window.clearInterval(waitForContact)
     }, 75)
   }
 

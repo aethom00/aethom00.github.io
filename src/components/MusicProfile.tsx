@@ -158,7 +158,7 @@ export default function MusicProfile() {
   const selectedPeriod = musicPeriods.find((item) => item.value === period) ?? musicPeriods[0]
 
   return (
-    <div className="glass-root relative min-h-screen overflow-hidden" aria-labelledby="music-profile-title">
+    <div id="music" className="glass-root relative min-h-screen overflow-hidden" aria-labelledby="music-profile-title">
       <div aria-hidden="true" className="glass-bloom" />
       <div aria-hidden="true" className="glass-bloom-2" />
       <div className="relative mx-auto max-w-[1180px] px-7 pb-[120px] pt-[110px]">
