@@ -28,7 +28,7 @@ function readRoute(): { page: Page, projectSlug?: string } {
   const path = window.location.pathname.replace(/\/+$/, '')
   const segments = path.split('/').filter(Boolean)
   const [candidate, rawSlug] = segments
-  if (candidate === 'projects' && rawSlug) return { page: 'projects', projectSlug: decodeURIComponent(rawSlug) }
+  if (candidate === 'projects' && rawSlug) return { page: 'home', projectSlug: decodeURIComponent(rawSlug) }
   return { page: pages.includes(candidate as Page) ? candidate as Page : 'home' }
 }
 

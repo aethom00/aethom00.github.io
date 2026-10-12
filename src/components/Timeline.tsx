@@ -309,7 +309,7 @@ export default function Timeline() {
   const imageEvents = useMemo(() => events.filter((event) => event.image), [events])
   const [activeIndex, setActiveIndex] = useState(0)
   const [fullscreenEvent, setFullscreenEvent] = useState<TimelineEvent | null>(null)
-  const sectionRef = useRef<HTMLElement | null>(null)
+  const sectionRef = useRef<HTMLDivElement | null>(null)
   const eventRefs = useRef<Array<HTMLDivElement | null>>([])
   const activeIndexRef = useRef(0)
   const suppressViewportSelectionUntil = useRef(0)
