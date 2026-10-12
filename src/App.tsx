@@ -6,9 +6,6 @@ import AboutPage from './components/AboutPage'
 import WorkPage from './components/WorkPage'
 import ResumePage from './components/ResumePage'
 import ContactPage from './components/ContactPage'
-import Volunteering from './components/Volunteering'
-import Projects from './components/Projects'
-import Research from './components/Research'
 import Footer from './components/Footer'
 import ProjectDetail from './components/ProjectDetail'
 import MusicProfile from './components/MusicProfile'
@@ -17,12 +14,10 @@ import SiteTranslator from './i18n/SiteTranslator'
 import { getProjectBySlug } from './data/projects'
 
 const Travel = lazy(() => import('./components/Travel'))
-const Experience = lazy(() => import('./components/Experience'))
-const Education = lazy(() => import('./components/Education'))
 const Timeline = lazy(() => import('./components/Timeline'))
 const VisualEffectsLab = lazy(() => import('./components/VisualEffectsLab'))
 
-const pages = ['home', 'work', 'about', 'resume', 'experience', 'volunteering', 'education', 'projects', 'research', 'timeline', 'travel', 'contact', 'effects'] as const
+const pages = ['home', 'work', 'about', 'resume', 'timeline', 'travel', 'contact', 'effects'] as const
 type Page = (typeof pages)[number]
 
 const pageTitles: Partial<Record<Page, string>> = {
@@ -56,11 +51,6 @@ function PageContent({ page }: { page: Page }) {
     case 'work': return <WorkPage />
     case 'about': return <AboutPage />
     case 'resume': return <ResumePage />
-    case 'experience': return <Suspense fallback={<SectionFallback />}><Experience /></Suspense>
-    case 'volunteering': return <Volunteering />
-    case 'education': return <><Suspense fallback={<SectionFallback />}><Education /></Suspense><Suspense fallback={<SectionFallback />}><Timeline variant="education" /></Suspense></>
-    case 'projects': return <Projects />
-    case 'research': return <div className="glass-root relative min-h-screen overflow-hidden"><div aria-hidden="true" className="glass-bloom" /><div aria-hidden="true" className="glass-bloom-2" /><div className="relative mx-auto max-w-[1180px] px-7 pb-[120px] pt-[110px]"><Research /></div></div>
     case 'timeline': return <Suspense fallback={<SectionFallback />}><Timeline /></Suspense>
     case 'travel': return <Suspense fallback={<div className="glass-root grid min-h-screen place-items-center text-sm text-[var(--g-ink3)]">Loading travel atlas…</div>}><Travel /></Suspense>
     case 'contact': return <><ContactPage /><MusicProfile /></>
